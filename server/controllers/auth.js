@@ -12,7 +12,7 @@ export const register = async (req, res) => {
                 email,
                 password,
                 picturePath,
-                firends,
+                friends,
                 location,
                 occupation
 
@@ -28,7 +28,7 @@ export const register = async (req, res) => {
                     email,
                     password:passwordHash,
                     picturePath,
-                    firends,
+                    friends,
                     location,
                     occupation,
                     viewedProfile: Math.floor(Math.random()* 10000),
@@ -43,3 +43,25 @@ export const register = async (req, res) => {
 
 
 };
+
+/* LOGGING IN */
+
+export const login = async (req,res)=>{
+    try{
+        const { email,password}=req.body;
+        const user= await User.findOne({email:email});
+        if(!user) return res.status(400).json({msg:"User does not exist."})
+
+        const isMatch = await bcrypt.compare(password,user.password);
+        if(!isMatch) return res.status(400).json({msg:"Invalid credentials"});
+
+    
+     const token =jwt.sign({id:user._id},process.env.JWT_SECRET);
+     delete user.password;
+     res.status(200).json({token,user});
+
+     
+    } catch (err){res.status(500).json({error: err.message});}
+
+}
+
