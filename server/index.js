@@ -17,6 +17,10 @@ import { verifyToken } from "./middleware/auth.js";
 
 import {createPost} from "./controllers/posts.js";
 
+import User from "./models/user.js";
+import Post from "./models/post.js";
+import {users,posts} from "./data/index.js";
+
 /*CONFIGURATIONS*/
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +70,14 @@ mongoose.
         useUnifiedTopology:true,
     }).then(()=>{
         app.listen(PORT,()=>console.log(`Server Port: ${PORT} `));
+
+        //manually import dummy users and posts from datafile
+        /*INSERT ONLY ONCE */
+
+        //  User.insertMany(users);
+        //  Post.insertMany(posts);
+
+
     }).catch((error)=>console.log(`${error} did not connect`));
 
 
