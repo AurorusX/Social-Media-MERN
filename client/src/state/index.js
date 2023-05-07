@@ -25,7 +25,7 @@ export const authSlice = createSlice({
         },
         setFriends : (state,action)=>{
             if(state.user){
-                state.user.friends = acrion.payload.friends;
+                state.user.friends = action.payload.friends;
             }else{
                 console.error("user friends does not exist")
             }
